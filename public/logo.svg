@@ -1,0 +1,13 @@
+<svg width="371" height="506" viewBox="0 0 371 506" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stopColor="#E87722" />
+    <stop offset="50%" stopColor="#FF6B35" />
+    <stop offset="100%" stopColor="#C44536" />
+  </linearGradient>
+</defs>
+<path d="M211.768 444.333L371 352.815L371 404.668L255.69 470.217L211.768 444.333Z" fill="url(#logoGradient)"/>
+<path d="M227.753 158.265L119.371 221.298V174.414L187.11 135.864L227.753 158.265Z" fill="url(#logoGradient)"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 106.923V319.383L185.308 428.695L370.615 323.271V108.537L185.718 0L0 106.923ZM43.2945 294.229V131.176L187.11 48.8679L330.925 135.864V167.641L148.029 270.266L187.11 294.229L327.798 214.526V299.438L184.504 379.663L43.2945 294.229Z" fill="url(#logoGradient)"/>
+<path d="M370.319 436.372L282.182 486.114L316.681 506L351.696 499.047L370.319 475.313V436.372Z" fill="url(#logoGradient)"/>
+</svg>
