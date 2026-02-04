@@ -16,6 +16,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'AS Therma Black';
+  src: url('/ASTherma-BlackCondensed.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @keyframes scroll-vertical {
   0% {
     transform: translateY(0);
@@ -28,7 +36,7 @@
 :root {
   --background: #f3efec;
   --foreground: #252525;
-  --accent: #ff8716;
+  --accent: #ff881d;
 }
 
 @theme inline {
@@ -37,6 +45,7 @@
   --color-accent: var(--accent);
   --font-therma: 'AS Therma', sans-serif;
   --font-serif: 'Libre Baskerville', Georgia, serif;
+  --font-retro: var(--font-retro), 'Bebas Neue', sans-serif;
 }
 
 * {
