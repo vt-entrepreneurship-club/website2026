@@ -24,12 +24,51 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Lincoln MITRE';
+  src: url('/LincolnMITRE-LM5x7.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @keyframes scroll-vertical {
   0% {
     transform: translateY(0);
   }
   100% {
     transform: translateY(-50%);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInSimple {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
@@ -46,6 +85,7 @@
   --font-therma: 'AS Therma', sans-serif;
   --font-serif: 'Libre Baskerville', Georgia, serif;
   --font-retro: var(--font-retro), 'Bebas Neue', sans-serif;
+  --font-lincoln: 'Lincoln MITRE', serif;
 }
 
 * {
