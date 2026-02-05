@@ -72,6 +72,69 @@ function useScrollFade(threshold = 0.3) {
 
 export default function Home() {
   const heroFade = useScrollFade(0.4);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [itemPositions, setItemPositions] = useState<number[]>([]);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  // Map images to each service item
+  const serviceImages = [
+    "/eclubwebp/DSC_1930.webp",
+    "/eclubwebp/DSC_2025.webp",
+    "/eclubwebp/DSC_2036.webp",
+    "/eclubwebp/DSC_2046.webp",
+    "/eclubwebp/DSC_2691.webp",
+  ];
+
+  // Calculate item positions relative to section
+  useEffect(() => {
+    const updatePositions = () => {
+      if (!sectionRef.current) return;
+      const sectionRect = sectionRef.current.getBoundingClientRect();
+      const sectionTop = sectionRect.top + window.scrollY;
+      const positions = itemRefs.current.map((ref) => {
+        if (!ref) return 0;
+        const rect = ref.getBoundingClientRect();
+        const itemCenter = rect.top + window.scrollY + rect.height / 2 - sectionTop;
+        return itemCenter;
+      });
+      setItemPositions(positions);
+    };
+
+    // Initial calculation
+    const timeoutId = setTimeout(updatePositions, 100);
+    
+    // Update on resize and scroll
+    window.addEventListener('resize', updatePositions);
+    window.addEventListener('scroll', updatePositions, { passive: true });
+    
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', updatePositions);
+      window.removeEventListener('scroll', updatePositions);
+    };
+  }, []);
+
+  // Recalculate positions when hovering
+  useEffect(() => {
+    if (hoveredIndex !== null) {
+      const updatePositions = () => {
+        if (!sectionRef.current) return;
+        const sectionRect = sectionRef.current.getBoundingClientRect();
+        const sectionTop = sectionRect.top + window.scrollY;
+        const positions = itemRefs.current.map((ref) => {
+          if (!ref) return 0;
+          const rect = ref.getBoundingClientRect();
+          const itemCenter = rect.top + window.scrollY + rect.height / 2 - sectionTop;
+          return itemCenter;
+        });
+        setItemPositions(positions);
+      };
+      // Small delay to ensure DOM has updated
+      const timeoutId = setTimeout(updatePositions, 10);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [hoveredIndex]);
 
   return (
     <main className="bg-background text-foreground">
@@ -281,10 +344,64 @@ export default function Home() {
 
       {/* What We Do */}
       <section
+        ref={sectionRef as React.RefObject<HTMLElement>}
         id="services"
-        className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 bg-foreground text-background relative"
+        className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 bg-foreground text-background relative overflow-hidden"
       >
-        <div className="max-w-4xl mx-auto w-full">
+        {/* Hover Image Display */}
+        {hoveredIndex !== null && (
+          <div 
+            className={`absolute pointer-events-none z-0 hidden md:block ${
+              // Items 0, 3, 5 (indices 0, 2, 4) on LEFT; Items 2, 4 (indices 1, 3) on RIGHT
+              hoveredIndex === 0 || hoveredIndex === 2 || hoveredIndex === 4
+                ? 'left-2 md:left-4 lg:left-8'
+                : 'right-4 md:right-8 lg:right-16'
+            }`}
+            style={{
+              width: 'min(calc((100vw - 56rem) / 2 - 4rem), 280px)',
+              maxWidth: '280px',
+              // Align image center with list item center
+              top: itemPositions[hoveredIndex] !== undefined 
+                ? `${itemPositions[hoveredIndex]}px`
+                : '50%',
+              transform: 'translateY(-50%)',
+              // Horizontal positioning adjustments
+              ...(hoveredIndex === 0 && { left: '1rem' }), // Item 1: move more to the right
+              ...(hoveredIndex === 4 && { left: '1rem' }), // Item 5: move more to the right
+              ...(hoveredIndex === 1 && { right: '2rem' }), // Item 2: move more to the right
+              ...(hoveredIndex === 3 && { right: '2rem' }), // Item 4: move more to the right
+            }}
+          >
+            <div 
+              className="relative w-full"
+              style={{
+                aspectRatio: '4/3',
+                animation: 'fadeInScale 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+              }}
+            >
+              <Image
+                src={serviceImages[hoveredIndex]}
+                alt={[
+                  { num: "01", text: "workshops & skill-building sessions" },
+                  { num: "02", text: "startup pitch competitions" },
+                  { num: "03", text: "networking with industry leaders" },
+                  { num: "04", text: "mentorship programs" },
+                  { num: "05", text: "access to funding opportunities" },
+                ][hoveredIndex].text}
+                fill
+                className="object-cover rounded-lg"
+                style={{
+                  filter: 'brightness(0.95) contrast(1.05)',
+                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4), 0 0 80px rgba(255, 136, 29, 0.2)',
+                }}
+              />
+              {/* Gradient overlay for better text contrast */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent rounded-lg" />
+            </div>
+          </div>
+        )}
+        
+        <div className="max-w-4xl mx-auto w-full relative z-10">
           <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-background/50 mb-6">03 — what we do</p>
           
           <h2 className="font-['Lincoln_MITRE'] text-3xl md:text-4xl lg:text-5xl tracking-tight text-accent mb-16" style={{ textShadow: '0 0 40px rgba(255, 136, 29, 0.3)' }}>
@@ -301,10 +418,13 @@ export default function Home() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="group flex items-start gap-4 py-4 border-b border-background/10 hover:border-accent transition-colors duration-300"
+                ref={(el) => { itemRefs.current[index] = el; }}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className="group flex items-start gap-4 py-4 border-b border-background/10 hover:border-accent transition-all duration-300 cursor-pointer"
               >
-                <span className="font-[family-name:var(--font-serif)] text-xs text-background/30 mt-1">{item.num}</span>
-                <p className="font-[family-name:var(--font-serif)] text-lg md:text-xl text-background/80 group-hover:text-background transition-colors duration-300">
+                <span className="font-[family-name:var(--font-serif)] text-xs text-background/30 mt-1 group-hover:text-accent transition-colors duration-300">{item.num}</span>
+                <p className="font-[family-name:var(--font-serif)] text-lg md:text-xl text-background/80 group-hover:text-background group-hover:translate-x-2 transition-all duration-300">
                   {item.text}
                 </p>
               </div>
