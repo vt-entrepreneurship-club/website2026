@@ -7,8 +7,39 @@ const navItems = [
   { label: "our mission", href: "#mission" },
   { label: "stats", href: "#stats" },
   { label: "what we do", href: "#services" },
-  { label: "", href: "#join" },
   { label: "team", href: "#team" },
+  { label: "advisors", href: "#advisors" },
+];
+
+const advisors = [
+  {
+    name: "Christopher Courtney",
+    title: "Associate Professor",
+    org: "Pamplin College of Business",
+    image: "/eclubwebp/advisors/chris.webp",
+    bio: "With over two decades of experience in entrepreneurship, strategy, and teaching, Chris founded We Sell Returns before entering academia. His research explores crowdfunding, social ventures, and open innovation.",
+  },
+  {
+    name: "Bob Summers",
+    title: "CEO & Founder",
+    org: "Goodcall",
+    image: "/eclubwebp/advisors/summers.webp",
+    bio: "With 20+ years in engineering and product leadership, Bob founded Goodcall from Google's Area120. He's helped 60+ startups, founded an angel network, and co-founded Techpad (now VT Entrepreneurship Center).",
+  },
+  {
+    name: "John Hagy",
+    title: "Executive Director",
+    org: "RAMP",
+    image: "/eclubwebp/advisors/hagy.webp",
+    bio: "John leads RAMP, a regional startup accelerator supporting tech and life science founders in Southwest Virginia. He previously led the Carolina Angel Network at UNC, helping startups secure capital.",
+  },
+  {
+    name: "Glenn Feit",
+    title: "Product Manager",
+    org: "LinkedIn",
+    image: "/eclubwebp/advisors/glenn.webp",
+    bio: "Former E'Club President and co-founder of QuickTech Medical. Glenn serves on the Pamplin Management Dept. Advisory Board and mentors the next generation of builders through hands-on guidance.",
+  },
 ];
 
 const teamMembers = [
@@ -73,6 +104,7 @@ function useScrollFade(threshold = 0.3) {
 export default function Home() {
   const heroFade = useScrollFade(0.4);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hasHovered, setHasHovered] = useState(false);
   const [itemPositions, setItemPositions] = useState<number[]>([]);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
@@ -82,17 +114,17 @@ export default function Home() {
     { num: "01", text: "workshops & skill-building sessions" },
     { num: "02", text: "startup pitch competitions" },
     { num: "03", text: "networking with industry leaders" },
-    { num: "04", text: "mentorship programs" },
+    { num: "04", text: "buildathons" },
     { num: "05", text: "access to funding opportunities" },
   ];
 
   // Map images to each service item
   const serviceImages = [
-    "/eclubwebp/DSC_1930.webp",
-    "/eclubwebp/DSC_2025.webp",
-    "/eclubwebp/DSC_2036.webp",
-    "/eclubwebp/DSC_2046.webp",
-    "/eclubwebp/DSC_2691.webp",
+    "/eclubwebp/people.webp",
+    "/eclubwebp/ventureweekend.webp",
+    "/eclubwebp/networkleader.webp",
+    "/eclubwebp/startupsprintspeaking.webp",
+    "/eclubwebp/1500.webp",
   ];
 
   // Calculate item positions relative to section
@@ -145,6 +177,26 @@ export default function Home() {
     }
   }, [hoveredIndex]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [missionSlideIndex, setMissionSlideIndex] = useState(0);
+  
+  // Mission slideshow images (not used in Building Builders section)
+  const missionImages = [
+    "/eclubwebp/tshirtlogo.webp",
+    "/eclubwebp/mohitspeaking.webp",
+    "/eclubwebp/consequences.webp",
+    "/eclubwebp/declaireve.webp",
+    "/eclubwebp/sellunits.webp",
+    "/eclubwebp/theproblem.webp",
+    "/eclubwebp/fivehundred.webp",
+  ];
+
+  const nextMissionSlide = () => {
+    setMissionSlideIndex((prev) => (prev + 1) % missionImages.length);
+  };
+
+  const prevMissionSlide = () => {
+    setMissionSlideIndex((prev) => (prev - 1 + missionImages.length) % missionImages.length);
+  };
 
   return (
     <main className="bg-background text-foreground">
@@ -390,6 +442,120 @@ export default function Home() {
             <div className="w-16 h-[1px] bg-accent" />
             <span className="font-[family-name:var(--font-serif)] text-xs text-background/40">est. 2019</span>
           </div>
+          
+          {/* Mobile slideshow (below text) */}
+          <div className="lg:hidden mt-12 flex items-center justify-center gap-4">
+            <button 
+              onClick={prevMissionSlide}
+              className="text-accent hover:text-accent/70 transition-colors duration-200 p-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <div className="relative w-full max-w-sm">
+              <div 
+                className="absolute inset-0 -m-4 rounded-2xl"
+                style={{
+                  background: 'radial-gradient(circle at center, rgba(255, 136, 29, 0.3) 0%, transparent 60%)',
+                  filter: 'blur(20px)',
+                }}
+              />
+              <div className="relative overflow-hidden rounded-xl">
+                <Image
+                  src={missionImages[missionSlideIndex]}
+                  alt="VTEC Community"
+                  width={400}
+                  height={300}
+                  className="object-cover w-full h-auto relative z-10"
+                  style={{
+                    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+                    filter: 'sepia(15%) saturate(120%) hue-rotate(-10deg)',
+                  }}
+                />
+              </div>
+              <div className="flex justify-center gap-2 mt-3 relative z-10">
+                {missionImages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setMissionSlideIndex(idx)}
+                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                      idx === missionSlideIndex ? 'bg-accent w-4' : 'bg-background/30 hover:bg-background/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+            
+            <button 
+              onClick={nextMissionSlide}
+              className="text-accent hover:text-accent/70 transition-colors duration-200 p-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        {/* Right side slideshow (desktop only) */}
+        <div className="absolute hidden lg:flex items-center gap-4" style={{ top: 'calc(50% + 50px)', transform: 'translateY(-50%)', left: 'calc(50% + 10rem)', right: '2rem' }}>
+          {/* Left arrow */}
+          <button 
+            onClick={prevMissionSlide}
+            className="text-accent hover:text-accent/70 transition-colors duration-200 p-2 hover:scale-110"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <div className="relative w-[28rem] xl:w-[36rem] flex-shrink-0">
+            {/* Glow behind image */}
+            <div 
+              className="absolute inset-0 -m-8 rounded-3xl"
+              style={{
+                background: 'radial-gradient(circle at center, rgba(255, 136, 29, 0.4) 0%, rgba(255, 136, 29, 0.15) 40%, transparent 70%)',
+                filter: 'blur(30px)',
+              }}
+            />
+            <div className="relative overflow-hidden rounded-2xl">
+              <Image
+                src={missionImages[missionSlideIndex]}
+                alt="VTEC Community"
+                width={600}
+                height={450}
+                className="object-cover w-full h-auto relative z-10 transition-opacity duration-500"
+                style={{
+                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4), 0 0 80px rgba(255, 136, 29, 0.25)',
+                  filter: 'sepia(15%) saturate(120%) hue-rotate(-10deg)',
+                }}
+              />
+            </div>
+            {/* Slide indicator */}
+            <div className="flex justify-center gap-2 mt-4 relative z-10">
+              {missionImages.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setMissionSlideIndex(idx)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    idx === missionSlideIndex ? 'bg-accent w-6' : 'bg-background/30 hover:bg-background/50'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+          
+          {/* Right arrow */}
+          <button 
+            onClick={nextMissionSlide}
+            className="text-accent hover:text-accent/70 transition-colors duration-200 p-2 hover:scale-110"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
         
         {/* Scroll arrow */}
@@ -409,7 +575,7 @@ export default function Home() {
           <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-foreground/50 mb-6">02 — by the numbers</p>
           
           <h2 className="font-[family-name:var(--font-serif)] text-2xl md:text-3xl tracking-tight mb-20">
-            Real <span className="underline underline-offset-4 decoration-accent decoration-2">impact</span>, measured.
+            Real <span className="underline underline-offset-4 decoration-accent decoration-2">impact</span> for builders at <span className="text-accent">Virginia Tech</span>.
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
@@ -472,8 +638,8 @@ export default function Home() {
                 : 'right-4 md:right-8 lg:right-16'
             }`}
             style={{
-              width: 'min(calc((100vw - 56rem) / 2 - 4rem), 280px)',
-              maxWidth: '280px',
+              width: 'min(calc((100vw - 56rem) / 2 - 2rem), 360px)',
+              maxWidth: '360px',
               // Align image center with list item center
               top: itemPositions[hoveredIndex] !== undefined 
                 ? `${itemPositions[hoveredIndex]}px`
@@ -517,10 +683,10 @@ export default function Home() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 relative">
-            {/* Hover me indicator - only show on first item */}
+            {/* Hover me indicator - hide permanently once any item is hovered */}
             <div 
               className={`absolute -left-16 md:-left-20 -top-2 pointer-events-none hidden md:flex items-center gap-2 ${
-                hoveredIndex === 0 || hoveredIndex === 2 ? 'opacity-0' : 'opacity-100'
+                hasHovered ? 'opacity-0' : 'opacity-100'
               }`}
               style={{
                 transition: 'opacity 0.5s ease-in-out',
@@ -553,7 +719,7 @@ export default function Home() {
                     fill="none"
                   />
                 </svg>
-                <span className="font-[family-name:var(--font-serif)] text-xs text-accent mt-0.5 whitespace-nowrap">
+                <span className="font-[family-name:var(--font-serif)] text-xs text-accent mt-0.5 whitespace-nowrap" style={{ marginLeft: '-5px' }}>
                   hover me
                 </span>
               </div>
@@ -563,7 +729,7 @@ export default function Home() {
               <div
                 key={index}
                 ref={(el) => { itemRefs.current[index] = el; }}
-                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseEnter={() => { setHoveredIndex(index); setHasHovered(true); }}
                 onMouseLeave={() => setHoveredIndex(null)}
                 className="group flex items-start gap-4 py-4 border-b border-background/10 hover:border-accent transition-all duration-300 cursor-pointer"
               >
@@ -629,32 +795,95 @@ export default function Home() {
       {/* Team */}
       <section
         id="team"
-        className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 relative"
+        className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 relative bg-foreground text-background"
       >
         <div className="max-w-6xl mx-auto w-full">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
             <div>
-              <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-foreground/50 mb-6">05 — the team</p>
+              <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-background/50 mb-6">05 — the team</p>
               <h2 className="font-['Lincoln_MITRE'] text-3xl md:text-4xl lg:text-5xl tracking-tight text-accent" style={{ textShadow: '0 0 40px rgba(255, 136, 29, 0.3)' }}>
-                Meet the Builders.
+                Meet the Team.
               </h2>
             </div>
-            <p className="font-[family-name:var(--font-serif)] text-sm text-foreground/50 mt-4 md:mt-0">{teamMembers.length} members</p>
+            <p className="font-[family-name:var(--font-serif)] text-sm text-background/50 mt-4 md:mt-0">{teamMembers.length} members</p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {teamMembers.map((member, index) => (
               <div
                 key={index}
-                className="group py-6 border-t border-foreground/10 hover:border-accent transition-colors duration-300"
+                className="group py-6 border-t border-background/10 hover:border-accent transition-colors duration-300"
               >
-                <span className="font-[family-name:var(--font-serif)] text-xs text-foreground/30 block mb-3">{String(index + 1).padStart(2, '0')}</span>
+                <span className="font-[family-name:var(--font-serif)] text-xs text-background/30 block mb-3">{String(index + 1).padStart(2, '0')}</span>
                 <h3 className="font-[family-name:var(--font-serif)] text-base font-medium mb-1 group-hover:text-accent transition-colors duration-300">
                   {member.name}
                 </h3>
-                <p className="font-[family-name:var(--font-serif)] text-xs text-foreground/50">
+                <p className="font-[family-name:var(--font-serif)] text-xs text-background/50">
                   {member.role}
                 </p>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Scroll to advisors arrow */}
+        <a href="#advisors" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-accent hover:translate-y-1 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+      </section>
+
+      {/* Advisors */}
+      <section
+        id="advisors"
+        className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 relative"
+      >
+        <div className="max-w-6xl mx-auto w-full">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
+            <div>
+              <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-foreground/50 mb-6">06 — guidance</p>
+              <h2 className="font-['Lincoln_MITRE'] text-3xl md:text-4xl lg:text-5xl tracking-tight text-accent" style={{ textShadow: '0 0 40px rgba(255, 136, 29, 0.3)' }}>
+                Our Advisors.
+              </h2>
+            </div>
+            <p className="font-[family-name:var(--font-serif)] text-sm text-foreground/50 mt-4 md:mt-0">{advisors.length} advisors</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            {advisors.map((advisor, index) => (
+              <div
+                key={index}
+                className="group flex flex-col sm:flex-row gap-6 py-6 border-t border-foreground/10 hover:border-accent transition-colors duration-300"
+              >
+                {/* Photo */}
+                <div className="relative w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 overflow-hidden rounded-lg">
+                  <Image
+                    src={advisor.image}
+                    alt={advisor.name}
+                    fill
+                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    style={{ filter: 'contrast(1.05)' }}
+                  />
+                  <div className="absolute inset-0 bg-accent/10 group-hover:bg-transparent transition-colors duration-300" />
+                </div>
+                
+                {/* Info */}
+                <div className="flex-1">
+                  <span className="font-[family-name:var(--font-serif)] text-xs text-foreground/30 block mb-2">{String(index + 1).padStart(2, '0')}</span>
+                  <h3 className="font-[family-name:var(--font-serif)] text-lg font-medium mb-1 group-hover:text-accent transition-colors duration-300">
+                    {advisor.name}
+                  </h3>
+                  <p className="font-[family-name:var(--font-serif)] text-sm text-accent mb-1">
+                    {advisor.title}
+                  </p>
+                  <p className="font-[family-name:var(--font-serif)] text-xs text-foreground/50 mb-3">
+                    {advisor.org}
+                  </p>
+                  <p className="font-[family-name:var(--font-serif)] text-sm text-foreground/70 leading-relaxed">
+                    {advisor.bio}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

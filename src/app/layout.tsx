@@ -39,8 +39,8 @@ const silkscreen = Silkscreen({
 });
 
 export const metadata: Metadata = {
-  title: "Virginia Tech Entrepreneurship Club",
-  description: "A design studio and venture partner",
+  title: "VT Entrepreneurship Club",
+  description: "The official launchpad for Hokie innovation",
 };
 
 export default function RootLayout({
