@@ -77,6 +77,15 @@ export default function Home() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
   
+  // Service items data
+  const serviceItems = [
+    { num: "01", text: "workshops & skill-building sessions" },
+    { num: "02", text: "startup pitch competitions" },
+    { num: "03", text: "networking with industry leaders" },
+    { num: "04", text: "mentorship programs" },
+    { num: "05", text: "access to funding opportunities" },
+  ];
+
   // Map images to each service item
   const serviceImages = [
     "/eclubwebp/DSC_1930.webp",
@@ -454,7 +463,7 @@ export default function Home() {
         className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 bg-foreground text-background relative overflow-hidden"
       >
         {/* Hover Image Display */}
-        {hoveredIndex !== null && (
+        {hoveredIndex !== null && hoveredIndex < serviceImages.length && (
           <div 
             className={`absolute pointer-events-none z-0 hidden md:block ${
               // Items 0, 3, 5 (indices 0, 2, 4) on LEFT; Items 2, 4 (indices 1, 3) on RIGHT
@@ -485,14 +494,8 @@ export default function Home() {
               }}
             >
               <Image
-                src={serviceImages[hoveredIndex]}
-                alt={[
-                  { num: "01", text: "workshops & skill-building sessions" },
-                  { num: "02", text: "startup pitch competitions" },
-                  { num: "03", text: "networking with industry leaders" },
-                  { num: "04", text: "mentorship programs" },
-                  { num: "05", text: "access to funding opportunities" },
-                ][hoveredIndex].text}
+                src={serviceImages[hoveredIndex] || serviceImages[0]}
+                alt={serviceItems[hoveredIndex]?.text || serviceItems[0].text}
                 fill
                 className="object-cover rounded-lg"
                 style={{
@@ -513,15 +516,50 @@ export default function Home() {
             Building Builders.
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-            {[
-              { num: "01", text: "workshops & skill-building sessions" },
-              { num: "02", text: "startup pitch competitions" },
-              { num: "03", text: "networking with industry leaders" },
-              { num: "04", text: "mentorship programs" },
-              { num: "05", text: "access to funding opportunities" },
-              { num: "06", text: "buildathons" },
-            ].map((item, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 relative">
+            {/* Hover me indicator - only show on first item */}
+            <div 
+              className={`absolute -left-16 md:-left-20 -top-2 pointer-events-none hidden md:flex items-center gap-2 ${
+                hoveredIndex === 0 || hoveredIndex === 2 ? 'opacity-0' : 'opacity-100'
+              }`}
+              style={{
+                transition: 'opacity 0.5s ease-in-out',
+              }}
+            >
+              <div className="flex flex-col items-center">
+                <svg 
+                  width="44" 
+                  height="32" 
+                  viewBox="0 0 55 40" 
+                  className="text-accent"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  {/* Curved body - extends to connect to arrowhead */}
+                  <path 
+                    d="M 8 32 Q 18 10, 35 14 Q 42 16, 46 18" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    strokeLinecap="round" 
+                    fill="none"
+                  />
+                  {/* Arrowhead - V shape, vertex points right toward list item 1, angled up 20 degrees */}
+                  <path 
+                    d="M 47 15 L 52 20 M 45 21 L 52 20" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
+                </svg>
+                <span className="font-[family-name:var(--font-serif)] text-xs text-accent mt-0.5 whitespace-nowrap">
+                  hover me
+                </span>
+              </div>
+            </div>
+            
+            {serviceItems.map((item, index) => (
               <div
                 key={index}
                 ref={(el) => { itemRefs.current[index] = el; }}
