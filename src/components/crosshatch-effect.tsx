@@ -120,7 +120,7 @@ class CrosshatchEffectImpl extends Effect {
     resolution = [1920, 1080],
   } = {}) {
     super("CrosshatchEffect", fragmentShader, {
-      uniforms: new Map([
+      uniforms: new Map<string, Uniform<number | Color | number[]>>([
         ["spacing", new Uniform(spacing)],
         ["thickness", new Uniform(thickness)],
         ["angle", new Uniform(angle)],
@@ -132,7 +132,7 @@ class CrosshatchEffectImpl extends Effect {
         ["inkColor", new Uniform(inkColor)],
         ["paperColor", new Uniform(paperColor)],
         ["resolution", new Uniform(resolution)],
-      ]),
+      ]) as Map<string, Uniform<number>>,
     });
   }
 }
