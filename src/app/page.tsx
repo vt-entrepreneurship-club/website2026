@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const navItems = [
-  { label: "mission", href: "#mission" },
+  { label: "our mission", href: "#mission" },
   { label: "stats", href: "#stats" },
   { label: "what we do", href: "#services" },
-  { label: "join", href: "#join" },
+  { label: "", href: "#join" },
   { label: "team", href: "#team" },
 ];
 
@@ -72,13 +72,61 @@ function useScrollFade(threshold = 0.3) {
 
 export default function Home() {
   const heroFade = useScrollFade(0.4);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <main className="bg-background text-foreground">
+      {/* Mobile Sidebar */}
+      <div 
+        className={`fixed inset-0 z-[100] lg:hidden transition-opacity duration-300 ${sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+      >
+        {/* Backdrop */}
+        <div 
+          className="absolute inset-0 bg-foreground/50"
+          onClick={() => setSidebarOpen(false)}
+        />
+        
+        {/* Sidebar */}
+        <div 
+          className={`absolute right-0 top-0 bottom-0 w-72 bg-background shadow-xl transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          {/* Close button */}
+          <button 
+            onClick={() => setSidebarOpen(false)}
+            className="absolute top-6 right-6 text-foreground hover:text-accent transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
+          {/* Nav items */}
+          <div className="flex flex-col pt-20 px-8 gap-6">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setSidebarOpen(false)}
+                className="font-[family-name:var(--font-serif)] text-xl text-foreground hover:text-accent transition-colors duration-200"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+          
+          {/* Logo at bottom */}
+          <div className="absolute bottom-8 left-8 flex items-center gap-2">
+            <Image src="/logo.svg" alt="VTEC Logo" width={24} height={32} className="brightness-0" />
+            <span className="text-foreground/50 text-xs">×</span>
+            <Image src="/vtlogo.svg" alt="VT Logo" width={32} height={32} />
+          </div>
+        </div>
+      </div>
+
       {/* Navbar - Not sticky, stays at top */}
-      <nav className="absolute top-0 left-0 right-0 z-50 animate-[fadeIn_1s_ease-out_0.2s_both]">
+      <nav className="absolute top-0 left-0 right-0 z-50 h-16 sm:h-20 animate-[fadeIn_1s_ease-out_0.2s_both]">
         {/* Logo - Top Left, absolute position */}
-        <div className="absolute left-8 top-1/2 -translate-y-1/2">
+        <div className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2">
           <div className="flex items-center">
             <div className="inline-block">
               <Image
@@ -86,10 +134,10 @@ export default function Home() {
                 alt="VTEC Logo"
                 width={32}
                 height={43}
-                className="w-8 h-auto brightness-0"
+                className="w-6 sm:w-8 h-auto brightness-0"
               />
             </div>
-            <div className="flex items-center whitespace-nowrap inline-block ml-3" style={{ transform: 'translateY(-2px)' }}>
+            <div className="hidden sm:flex items-center whitespace-nowrap inline-block ml-3" style={{ transform: 'translateY(-2px)' }}>
               <svg 
                 className="w-5 h-5 text-foreground inline-block mx-1" 
                 fill="none" 
@@ -99,7 +147,7 @@ export default function Home() {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-        <Image
+              <Image
                 src="/vtlogo.svg"
                 alt="VT Logo"
                 width={40}
@@ -110,7 +158,18 @@ export default function Home() {
           </div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-center">
+        {/* Mobile hamburger button */}
+        <button 
+          onClick={() => setSidebarOpen(true)}
+          className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 lg:hidden text-foreground hover:text-accent transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        
+        {/* Desktop nav */}
+        <div className="max-w-7xl mx-auto px-8 h-full hidden lg:flex items-center justify-center">
           <div className="flex items-center justify-between w-full max-w-3xl">
             {navItems.map((item, index) => {
               const glows = [
@@ -169,32 +228,23 @@ export default function Home() {
           }}
         />
         
-        {/* Fisheye lens vignette overlay */}
-        <div 
-          className="absolute inset-0 pointer-events-none z-[5]"
-          style={{
-            background: 'radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.03) 70%, rgba(0, 0, 0, 0.08) 85%, rgba(0, 0, 0, 0.15) 95%, rgba(0, 0, 0, 0.22) 100%)',
-            boxShadow: 'inset 0 0 120px 40px rgba(0, 0, 0, 0.06)',
-          }}
-        />
-        
         {/* Breathing orange gradient glow - center */}
         <div 
           className="absolute left-1/2 top-1/2 w-[90vh] h-[90vh] pointer-events-none z-[6] animate-[breathe_3s_ease-in-out_infinite]"
           style={{
-            background: 'radial-gradient(circle at center, rgba(255, 136, 29, 0.35) 0%, rgba(255, 136, 29, 0.2) 30%, rgba(255, 136, 29, 0.07) 55%, transparent 75%)',
+            background: 'radial-gradient(circle at center, rgba(255, 136, 29, 0.75) 0%, rgba(255, 136, 29, 0.5) 25%, rgba(255, 136, 29, 0.25) 50%, transparent 70%)',
             filter: 'blur(50px)',
             borderRadius: '50%',
           }}
         />
         
-        {/* Fig 01 Label - Bottom right of center logo */}
-        <div className="absolute bottom-[25%] right-[30%] z-20 translate-y-[40px] -translate-x-[55px] animate-[fadeIn_1s_ease-out_0.8s_both]">
+        {/* Fig 01 Label - Bottom right of center logo (hidden on mobile) */}
+        <div className="absolute bottom-[25%] right-[30%] z-20 translate-y-[40px] -translate-x-[55px] animate-[fadeIn_1s_ease-out_0.8s_both] hidden md:block">
           <span className="font-[family-name:var(--font-serif)] text-sm text-foreground">fig 01.</span>
         </div>
         
         {/* Vertical Text - Right Edge */}
-        <div className="absolute right-0 top-0 bottom-0 z-10 h-screen animate-[fadeInSimple_1.2s_ease-out_0.4s_both]">
+        <div className="absolute right-0 top-0 bottom-0 z-10 h-screen animate-[fadeInSimple_1.2s_ease-out_0.4s_both] hidden md:block">
           <p 
             className="font-[family-name:var(--font-serif)] tracking-tighter text-foreground/20 whitespace-nowrap"
             style={{ writingMode: 'vertical-rl', fontSize: 'calc(100vh / 8)', lineHeight: 1, height: '100vh', textShadow: '0 0 25px rgba(255, 136, 29, 0.15), 0 0 50px rgba(255, 136, 29, 0.08), 0 0 75px rgba(255, 136, 29, 0.04)' }}
@@ -207,11 +257,11 @@ export default function Home() {
         <div className="relative z-10 w-full h-full flex flex-col justify-end pb-6 md:pb-8 lg:pb-10 pl-4 md:pl-6 lg:pl-8 pr-8 md:pr-12 lg:pr-16">
           <div className="text-left animate-[fadeIn_1s_ease-out_0.6s_both]">
             <h1 className="font-serif text-[1.1rem] sm:text-[1.4rem] md:text-[2.1rem] lg:text-[2.8rem] xl:text-[3.8rem] tracking-tight leading-[0.85] mb-4" style={{ textShadow: '0 0 30px rgba(255, 136, 29, 0.4), 0 0 60px rgba(255, 136, 29, 0.2), 0 0 90px rgba(255, 136, 29, 0.1)' }}>
-              <a href="https://www.vt.edu/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors duration-200">virginia tech</a><span className="text-2xl relative -top-9 inline-block">™</span>
+              <a href="https://www.vt.edu/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors duration-200">virginia tech</a><span className="text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl relative -top-2 sm:-top-3 md:-top-5 lg:-top-7 xl:-top-9 inline-block">™</span>
             </h1>
             <h1 className="font-['Lincoln_MITRE'] text-[2rem] sm:text-[2.8rem] md:text-[4.2rem] lg:text-[5.5rem] xl:text-[7.5rem] tracking-[-0.1em] leading-[0.85] text-accent flex items-center">
               Entrepreneurship Club
-              <span className="flex flex-col items-center gap-2 ml-7 md:ml-11" style={{ opacity: 0.75 }}>
+              <span className="hidden sm:flex flex-col items-center gap-2 ml-7 md:ml-11" style={{ opacity: 0.75 }}>
                 <a 
                   href="https://www.instagram.com/eclub.vt/" 
                   target="_blank" 
@@ -246,8 +296,8 @@ export default function Home() {
         id="mission"
         className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 bg-foreground text-background relative overflow-hidden"
       >
-        {/* Decorative vertical text */}
-        <div className="absolute left-4 top-0 bottom-0 flex items-center">
+        {/* Decorative vertical text (hidden on mobile) */}
+        <div className="absolute left-4 top-0 bottom-0 items-center hidden lg:flex">
           <p className="font-[family-name:var(--font-serif)] text-background/10 whitespace-nowrap" style={{ writingMode: 'vertical-rl', fontSize: '12vh', letterSpacing: '-0.05em' }}>
             mission
           </p>
@@ -269,6 +319,13 @@ export default function Home() {
             <span className="font-[family-name:var(--font-serif)] text-xs text-background/40">est. 2019</span>
           </div>
         </div>
+        
+        {/* Scroll arrow */}
+        <a href="#stats" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-accent hover:translate-y-1 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
       </section>
 
       {/* Stats */}
@@ -318,6 +375,13 @@ export default function Home() {
             ))}
           </div>
         </div>
+        
+        {/* Scroll arrow */}
+        <a href="#services" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-accent hover:translate-y-1 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
       </section>
 
       {/* What We Do */}
@@ -353,6 +417,13 @@ export default function Home() {
             ))}
           </div>
         </div>
+        
+        {/* Scroll arrow */}
+        <a href="#join" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-accent hover:translate-y-1 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
       </section>
 
       {/* CTA - Become a Member */}
@@ -360,8 +431,8 @@ export default function Home() {
         id="join"
         className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 bg-accent text-background relative overflow-hidden"
       >
-        {/* Large decorative text */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none">
+        {/* Large decorative text (hidden on mobile) */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
           <p className="font-['Lincoln_MITRE'] text-[20vw] leading-none tracking-tighter">
             JOIN
           </p>
@@ -388,6 +459,13 @@ export default function Home() {
             </svg>
           </a>
         </div>
+        
+        {/* Scroll arrow */}
+        <a href="#team" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-foreground hover:translate-y-1 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
       </section>
 
       {/* Team */}
@@ -423,6 +501,14 @@ export default function Home() {
             ))}
           </div>
         </div>
+        
+        {/* Back to top arrow */}
+        <a href="#hero" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-accent hover:-translate-y-1 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+          <span className="font-[family-name:var(--font-serif)] text-xs">back to top</span>
+        </a>
       </section>
 
       {/* Footer */}
