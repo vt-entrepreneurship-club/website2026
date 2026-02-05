@@ -50,6 +50,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Tally Form Embed Script */}
+        <script async src="https://tally.so/widgets/embed.js"></script>
+      </head>
       <body className={`${libreBaskerville.variable} ${bebasNeue.variable} ${sora.variable} ${pressStart2P.variable} ${vt323.variable} ${silkscreen.variable} antialiased`}>
         {children}
       </body>

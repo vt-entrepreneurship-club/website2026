@@ -43,16 +43,27 @@ const advisors = [
 ];
 
 const teamMembers = [
-  { name: "Jeremiah Hohn", role: "President" },
-  { name: "Nate Estrada", role: "Vice President" },
-  { name: "Ebenezer Zergabachew", role: "Senior Advisor" },
-  { name: "Andrew Kim", role: "Director of Technology & Data" },
-  { name: "Jaik Tom", role: "Creative Lead" },
-  { name: "Nicholas Vo", role: "Media and Partnerships Lead" },
-  { name: "Ahmed Shousha", role: "Senior Tech and Innovation Coordinator" },
-  { name: "Vincent Nottoli", role: "Senior Program Coordinator" },
-  { name: "Fiona Birnie", role: "Program Coordinator" },
-  { name: "Carter Foster", role: "Tech and Innovation Coordinator" },
+  // Leadership
+  { name: "Nicholas Vo", role: "President", team: "leadership", image: "/eclubwebp/team/nick.webp" },
+  { name: "Vincent Nottoli", role: "Vice President", team: "leadership", image: "/eclubwebp/team/vince.webp" },
+  // Web Development
+  { name: "Andrew Kim", role: "Web Developer & Data Lead", team: "web", image: "/eclubwebp/team/andrew.webp" },
+  { name: "Newton Ma", role: "Web Developer", team: "web", image: "/eclubwebp/team/newton.webp" },
+  { name: "Carter Foster", role: "Web Developer", team: "web", image: "/eclubwebp/team/carter.webp" },
+  // Design
+  { name: "Nivisha Vikraman", role: "Design Lead", team: "design", image: "/eclubwebp/team/nivisha.webp" },
+  { name: "Brian Kim", role: "Marketing & Design", team: ["design", "marketing"], image: "/eclubwebp/team/brian.webp" },
+  // Marketing
+  { name: "Catori Ryan", role: "Marketing Lead", team: "marketing", image: "/eclubwebp/team/catori.webp" },
+  { name: "Lucas Damjanovic", role: "Marketing", team: "marketing", image: "/eclubwebp/team/lucas.webp" },
+  { name: "Maddie Hurray", role: "Marketing", team: "marketing", image: "/eclubwebp/team/maddie.webp" },
+  { name: "Sawyer Shoup", role: "Media & Marketing", team: "marketing", image: "/eclubwebp/team/sawyer.webp" },
+  // Events and Outreach
+  { name: "Fiona Birnie", role: "Events & Outreach Lead", team: "events", image: "/eclubwebp/team/fiona.webp" },
+  { name: "LaZell Locey", role: "Events & Outreach", team: "events", image: "/eclubwebp/team/lazell.webp" },
+  { name: "Ryan Curry", role: "Events & Outreach", team: "events", image: "/eclubwebp/team/ryan.webp" },
+  { name: "Aarnav Kawadkar", role: "Events & Outreach", team: "events", image: "/eclubwebp/team/arnav.webp" },
+  { name: "Siddharth Ravi", role: "Events & Outreach", team: "events", image: "/eclubwebp/team/sidd.webp" },
 ];
 
 const getInitials = (name: string) => {
@@ -104,7 +115,7 @@ function useScrollFade(threshold = 0.3) {
 export default function Home() {
   const heroFade = useScrollFade(0.4);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [hasHovered, setHasHovered] = useState(false);
+  const [hoveredTeam, setHoveredTeam] = useState<string | null>(null);
   const [itemPositions, setItemPositions] = useState<number[]>([]);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
@@ -271,7 +282,7 @@ export default function Home() {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-              <Image
+        <Image
                 src="/vtlogo.svg"
                 alt="VT Logo"
                 width={40}
@@ -427,14 +438,14 @@ export default function Home() {
           </p>
         </div>
         
-        <div className="max-w-3xl ml-16 md:ml-24">
+        <div className="max-w-xl lg:max-w-md xl:max-w-xl 2xl:max-w-2xl ml-8 md:ml-16 lg:ml-24">
           <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-background/50 mb-6">01 — our purpose</p>
           
-          <h2 className="font-['Lincoln_MITRE'] text-3xl md:text-4xl lg:text-5xl tracking-tight text-accent mb-12" style={{ textShadow: '0 0 40px rgba(255, 136, 29, 0.3)' }}>
+          <h2 className="font-['Lincoln_MITRE'] text-2xl md:text-3xl lg:text-4xl xl:text-5xl tracking-tight text-accent mb-8 lg:mb-12" style={{ textShadow: '0 0 40px rgba(255, 136, 29, 0.3)' }}>
             Empowering Innovators.
           </h2>
           
-          <p className="font-[family-name:var(--font-serif)] text-xl md:text-2xl leading-relaxed text-background/80">
+          <p className="font-[family-name:var(--font-serif)] text-base lg:text-xl xl:text-2xl leading-relaxed text-background/80">
             We empower the next generation of innovators at Virginia Tech by fostering a community of creative problem-solvers, providing resources for startup development, and connecting students with industry leaders.
           </p>
           
@@ -500,7 +511,7 @@ export default function Home() {
         </div>
         
         {/* Right side slideshow (desktop only) */}
-        <div className="absolute hidden lg:flex items-center gap-4" style={{ top: 'calc(50% + 50px)', transform: 'translateY(-50%)', left: 'calc(50% + 10rem)', right: '2rem' }}>
+        <div className="absolute hidden lg:flex items-center gap-2" style={{ top: '50%', transform: 'translateY(-50%)', left: 'clamp(55%, calc(50% + 8rem), 58%)', right: '2rem' }}>
           {/* Left arrow */}
           <button 
             onClick={prevMissionSlide}
@@ -511,7 +522,7 @@ export default function Home() {
             </svg>
           </button>
           
-          <div className="relative w-[28rem] xl:w-[36rem] flex-shrink-0">
+          <div className="relative flex-shrink-0" style={{ width: 'clamp(16rem, 25vw, 32rem)' }}>
             {/* Glow behind image */}
             <div 
               className="absolute inset-0 -m-8 rounded-3xl"
@@ -631,7 +642,7 @@ export default function Home() {
         {/* Hover Image Display */}
         {hoveredIndex !== null && hoveredIndex < serviceImages.length && (
           <div 
-            className={`absolute pointer-events-none z-0 hidden md:block ${
+            className={`absolute pointer-events-none z-10 hidden md:block ${
               // Items 0, 3, 5 (indices 0, 2, 4) on LEFT; Items 2, 4 (indices 1, 3) on RIGHT
               hoveredIndex === 0 || hoveredIndex === 2 || hoveredIndex === 4
                 ? 'left-2 md:left-4 lg:left-8'
@@ -685,12 +696,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 relative">
             {/* Hover me indicator - hide permanently once any item is hovered */}
             <div 
-              className={`absolute -left-16 md:-left-20 -top-2 pointer-events-none hidden md:flex items-center gap-2 ${
-                hasHovered ? 'opacity-0' : 'opacity-100'
-              }`}
-              style={{
-                transition: 'opacity 0.5s ease-in-out',
-              }}
+              className="absolute -left-16 md:-left-20 -top-2 pointer-events-none hidden md:flex items-center gap-2 z-0"
             >
               <div className="flex flex-col items-center">
                 <svg 
@@ -729,7 +735,7 @@ export default function Home() {
               <div
                 key={index}
                 ref={(el) => { itemRefs.current[index] = el; }}
-                onMouseEnter={() => { setHoveredIndex(index); setHasHovered(true); }}
+                onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 className="group flex items-start gap-4 py-4 border-b border-background/10 hover:border-accent transition-all duration-300 cursor-pointer"
               >
@@ -770,18 +776,28 @@ export default function Home() {
           </h2>
           
           <p className="font-[family-name:var(--font-serif)] text-lg md:text-xl leading-relaxed text-background/80 mb-12 max-w-lg">
-            Become a member and unlock exclusive access to events, resources, and a vibrant community of innovators.
+            Become a member and unlock access to events, resources, and a vibrant community of innovators.
           </p>
           
-          <a
-            href="mailto:eclubvt@gmail.com"
-            className="inline-flex items-center gap-3 font-[family-name:var(--font-serif)] text-base px-8 py-4 bg-background text-accent hover:bg-background/90 transition-all duration-300"
+          <button
+            onClick={() => {
+              // @ts-expect-error Tally is loaded via external script
+              if (typeof Tally !== 'undefined') {
+                // @ts-expect-error Tally is loaded via external script
+                Tally.openPopup('3NkvQl', {
+                  layout: 'modal',
+                  width: 700,
+                  autoClose: 3000,
+                });
+              }
+            }}
+            className="inline-flex items-center gap-3 font-[family-name:var(--font-serif)] text-base px-8 py-4 bg-background text-accent hover:bg-background/90 transition-all duration-300 cursor-pointer"
           >
-            get started
+            Join now
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
-          </a>
+          </button>
         </div>
         
         {/* Scroll arrow */}
@@ -809,20 +825,49 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {teamMembers.map((member, index) => (
-              <div
-                key={index}
-                className="group py-6 border-t border-background/10 hover:border-accent transition-colors duration-300"
-              >
-                <span className="font-[family-name:var(--font-serif)] text-xs text-background/30 block mb-3">{String(index + 1).padStart(2, '0')}</span>
-                <h3 className="font-[family-name:var(--font-serif)] text-base font-medium mb-1 group-hover:text-accent transition-colors duration-300">
-                  {member.name}
-                </h3>
-                <p className="font-[family-name:var(--font-serif)] text-xs text-background/50">
-                  {member.role}
-                </p>
-              </div>
-            ))}
+            {teamMembers.map((member, index) => {
+              const memberTeams = Array.isArray(member.team) ? member.team : [member.team];
+              const isTeamHighlighted = hoveredTeam !== null && memberTeams.includes(hoveredTeam);
+              return (
+                <div
+                  key={index}
+                  className={`group py-4 border-t transition-all duration-300 cursor-pointer ${
+                    isTeamHighlighted 
+                      ? 'border-accent' 
+                      : hoveredTeam 
+                        ? 'border-background/5 opacity-40' 
+                        : 'border-background/10 hover:border-accent'
+                  }`}
+                  onMouseEnter={() => setHoveredTeam(Array.isArray(member.team) ? member.team[0] : member.team)}
+                  onMouseLeave={() => setHoveredTeam(null)}
+                >
+                  {/* Member Photo */}
+                  <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-sm bg-background/5">
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover transition-all duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-background/20 font-[family-name:var(--font-serif)] text-2xl">
+                        {member.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                    )}
+                    </div>
+                  <span className="font-[family-name:var(--font-serif)] text-xs text-background/30 block mb-2">{String(index + 1).padStart(2, '0')}</span>
+                  <h3 className={`font-[family-name:var(--font-serif)] text-sm font-medium mb-1 transition-colors duration-300 ${
+                    isTeamHighlighted ? 'text-accent' : 'group-hover:text-accent'
+                  }`}>
+                    {member.name}
+                  </h3>
+                  <p className="font-[family-name:var(--font-serif)] text-xs text-background/50">
+                    {member.role}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
         
@@ -862,10 +907,13 @@ export default function Home() {
                     src={advisor.image}
                     alt={advisor.name}
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="object-cover transition-all duration-500"
                     style={{ filter: 'contrast(1.05)' }}
                   />
-                  <div className="absolute inset-0 bg-accent/10 group-hover:bg-transparent transition-colors duration-300" />
+                  {/* Orange glow overlay on hover */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
+                    background: 'radial-gradient(circle at center, rgba(255, 136, 29, 0.35) 0%, transparent 70%)',
+                  }} />
                 </div>
                 
                 {/* Info */}
@@ -913,7 +961,7 @@ export default function Home() {
                   className="w-8 h-auto brightness-0 invert"
                 />
                 <span className="font-[family-name:var(--font-serif)] text-xs text-background/40">×</span>
-                <Image
+            <Image
                   src="/vtlogo.svg"
                   alt="VT Logo"
                   width={40}
