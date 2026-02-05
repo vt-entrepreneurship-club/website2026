@@ -432,8 +432,8 @@ export default function Home() {
         className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 bg-accent text-background relative overflow-hidden"
       >
         {/* Large decorative text (hidden on mobile) */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
-          <p className="font-['Lincoln_MITRE'] text-[20vw] leading-none tracking-tighter">
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none hidden md:block">
+          <p className="font-['Lincoln_MITRE'] text-[20vw] leading-none tracking-tighter text-background">
             JOIN
           </p>
         </div>
