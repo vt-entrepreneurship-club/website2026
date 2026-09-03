@@ -9,6 +9,8 @@ const navItems = [
   { label: "what we do", href: "#services" },
   { label: "team", href: "#team" },
   { label: "advisors", href: "#advisors" },
+  { label: "startup sprint", href: "#sprint" },
+  { label: "donate", href: "#donate" },
 ];
 
 const advisors = [
@@ -937,6 +939,118 @@ export default function Home() {
           </div>
         </div>
         
+        {/* Scroll to startup sprint arrow */}
+        <a href="#sprint" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-accent hover:translate-y-1 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+      </section>
+
+      {/* Startup Sprint */}
+      <section
+        id="sprint"
+        className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 relative overflow-hidden"
+      >
+        <div className="max-w-6xl mx-auto w-full relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
+            <div>
+              <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-foreground/50 mb-6">07 — flagship event</p>
+
+              <h2 className="font-['Lincoln_MITRE'] text-3xl md:text-4xl lg:text-5xl tracking-tight text-accent mb-8" style={{ textShadow: '0 0 40px rgba(255, 136, 29, 0.3)' }}>
+                Startup Sprint.
+              </h2>
+
+              <p className="font-[family-name:var(--font-serif)] text-base lg:text-xl leading-relaxed text-foreground/80 mb-12 max-w-lg">
+                A week-long build sprint where students turn an idea into a working MVP and pitch it to a panel of judges for cash prizes. Open to all majors and backgrounds — no startup experience required.
+              </p>
+
+              <div className="space-y-6">
+                {[
+                  { value: "Sep 23–28", label: "opening ceremony through closing pitches" },
+                  { value: "Sep 26", label: "team workshops to sharpen your idea and build" },
+                  { value: "cash prizes", label: "awarded to the top teams at closing ceremony" },
+                ].map((fact, index) => (
+                  <div key={index} className="flex items-baseline gap-4 border-l border-foreground/20 pl-6 py-1">
+                    <p className="font-['Lincoln_MITRE'] text-xl md:text-2xl tracking-tight text-accent whitespace-nowrap" style={{ textShadow: '0 0 30px rgba(255, 136, 29, 0.2)' }}>
+                      {fact.value}
+                    </p>
+                    <p className="font-[family-name:var(--font-serif)] text-sm text-foreground/60 leading-relaxed">
+                      {fact.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Photo */}
+            <div className="relative">
+              <div
+                className="absolute inset-0 -m-8 rounded-3xl pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle at center, rgba(255, 136, 29, 0.4) 0%, rgba(255, 136, 29, 0.15) 40%, transparent 70%)',
+                  filter: 'blur(30px)',
+                }}
+              />
+              <div className="relative overflow-hidden rounded-2xl">
+                <Image
+                  src="/eclubwebp/startupsprintwinners.jpeg"
+                  alt="Students celebrating their Venture Weekend prize win"
+                  width={1206}
+                  height={1240}
+                  className="object-cover w-full h-auto relative z-10"
+                  style={{
+                    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4), 0 0 80px rgba(255, 136, 29, 0.25)',
+                    filter: 'contrast(1.05)',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll to donate arrow */}
+        <a href="#donate" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-accent hover:translate-y-1 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+      </section>
+
+      {/* Donate */}
+      <section
+        id="donate"
+        className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 bg-foreground text-background relative overflow-hidden"
+      >
+        {/* Large decorative text (hidden on mobile) */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
+          <p className="font-['Lincoln_MITRE'] text-[18vw] leading-none tracking-tighter text-accent">
+            GIVE
+          </p>
+        </div>
+
+        <div className="max-w-2xl relative z-10">
+          <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-background/50 mb-6">08 — support us</p>
+
+          <h2 className="font-['Lincoln_MITRE'] text-3xl md:text-4xl lg:text-5xl tracking-tight text-accent mb-8 lg:mb-12" style={{ textShadow: '0 0 40px rgba(255, 136, 29, 0.3)' }}>
+            Fuel the Builders.
+          </h2>
+
+          <p className="font-[family-name:var(--font-serif)] text-base lg:text-xl leading-relaxed text-background/80 mb-12 max-w-lg">
+            Your donation helps us provide funding, resources, and mentorship to the next generation of Hokie entrepreneurs.
+          </p>
+
+          <div className="bg-accent text-background rounded-lg px-8 py-8 max-w-md" style={{ boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), 0 0 80px rgba(255, 136, 29, 0.25)' }}>
+            <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-background/70 mb-3">interested in donating?</p>
+            <a
+              href="mailto:fionavbirnie@vt.edu"
+              className="font-[family-name:var(--font-serif)] text-lg md:text-xl text-background hover:underline underline-offset-4 decoration-2"
+            >
+              contact us at fionavbirnie@vt.edu
+            </a>
+          </div>
+        </div>
+
         {/* Back to top arrow */}
         <a href="#hero" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-accent hover:-translate-y-1 transition-transform duration-300">
           <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
