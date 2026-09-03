@@ -9,6 +9,7 @@ const navItems = [
   { label: "what we do", href: "#services" },
   { label: "team", href: "#team" },
   { label: "advisors", href: "#advisors" },
+  { label: "startup sprint", href: "#sprint" },
   { label: "donate", href: "#donate" },
 ];
 
@@ -938,6 +939,49 @@ export default function Home() {
           </div>
         </div>
         
+        {/* Scroll to startup sprint arrow */}
+        <a href="#sprint" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-accent hover:translate-y-1 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+      </section>
+
+      {/* Startup Sprint */}
+      <section
+        id="sprint"
+        className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 relative overflow-hidden"
+      >
+        <div className="max-w-5xl mx-auto w-full relative z-10">
+          <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-foreground/50 mb-6">07 — flagship event</p>
+
+          <h2 className="font-['Lincoln_MITRE'] text-3xl md:text-4xl lg:text-5xl tracking-tight text-accent mb-8" style={{ textShadow: '0 0 40px rgba(255, 136, 29, 0.3)' }}>
+            Startup Sprint.
+          </h2>
+
+          <p className="font-[family-name:var(--font-serif)] text-base lg:text-xl leading-relaxed text-foreground/80 mb-16 max-w-2xl">
+            A week-long build sprint where students turn an idea into a working MVP and pitch it to a panel of judges for cash prizes. Open to all majors and backgrounds — no startup experience required.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
+            {[
+              { value: "Sep 23–28", label: "opening ceremony through closing pitches", num: "01" },
+              { value: "Sep 26", label: "team workshops to sharpen your idea and build", num: "02" },
+              { value: "cash prizes", label: "awarded to the top teams at closing ceremony", num: "03" },
+            ].map((fact, index) => (
+              <div key={index} className="border-l border-foreground/20 pl-6 py-4">
+                <span className="font-[family-name:var(--font-serif)] text-xs text-foreground/30 block mb-4">fig {fact.num}.</span>
+                <p className="font-['Lincoln_MITRE'] text-2xl md:text-3xl tracking-tight text-accent mb-4" style={{ textShadow: '0 0 30px rgba(255, 136, 29, 0.2)' }}>
+                  {fact.value}
+                </p>
+                <p className="font-[family-name:var(--font-serif)] text-sm text-foreground/60 leading-relaxed">
+                  {fact.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Scroll to donate arrow */}
         <a href="#donate" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-accent hover:translate-y-1 transition-transform duration-300">
           <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -959,7 +1003,7 @@ export default function Home() {
         </div>
 
         <div className="max-w-2xl relative z-10">
-          <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-background/50 mb-6">07 — support us</p>
+          <p className="font-[family-name:var(--font-serif)] text-sm tracking-widest text-background/50 mb-6">08 — support us</p>
 
           <h2 className="font-['Lincoln_MITRE'] text-3xl md:text-4xl lg:text-5xl tracking-tight text-accent mb-8 lg:mb-12" style={{ textShadow: '0 0 40px rgba(255, 136, 29, 0.3)' }}>
             Fuel the Builders.
